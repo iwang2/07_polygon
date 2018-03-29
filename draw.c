@@ -75,31 +75,28 @@ void add_box( struct matrix * edges,
               double width, double height, double depth ) {
 
   double x0, y0, z0, x1, y1, z1;
-  x0 = x;
-  x1 = x+width;
-  y0 = y;
-  y1 = y-height;
-  z0 = z;
-  z1 = z-depth;
-
+  x0 = x;  x1 = x+width;
+  y0 = y;  y1 = y-height;
+  z0 = z;  z1 = z-depth;
   
   //front
-  add_edge(edges, x0, y0, z0, x1, y0, z0);
-  add_edge(edges, x1, y0, z0, x1, y1, z0);
-  add_edge(edges, x1, y1, z0, x0, y1, z0);
-  add_edge(edges, x0, y1, z0, x0, y0, z0);
-
+  add_polygon(edges, x0, y0, z0, x1, y0, z0, x1, y1, z0);
+  add_polygon(edges, x1, y1, z0, x0, y1, z0, x0, y0, z0);
+  //top
+  add_polygon(edges, x0, y1, z0, x1, y1, z0, x1, y1, z1);
+  add_polygon(edges, x1, y1, z1, x0, y1, z1, x0, y1, z0);
   //back
-  add_edge(edges, x0, y0, z1, x1, y0, z1);
-  add_edge(edges, x1, y0, z1, x1, y1, z1);
-  add_edge(edges, x1, y1, z1, x0, y1, z1);
-  add_edge(edges, x0, y1, z1, x0, y0, z1);
-
-  //sides
-  add_edge(edges, x0, y0, z0, x0, y0, z1);
-  add_edge(edges, x1, y0, z0, x1, y0, z1);
-  add_edge(edges, x1, y1, z0, x1, y1, z1);
-  add_edge(edges, x0, y1, z0, x0, y1, z1);
+  add_polygon(edges, x0, y1, z1, x1, y1, z1, x1, y0, z1);
+  add_polygon(edges, x1, y0, z1, x0, y0, z1, x0, y1, z1);
+  //bottom
+  add_polygon(edges, x0, y0, z1, x1, y0, z1, x1, y0, z0);
+  add_polygon(edges, x1, y0, z0, x0, y0, z0, x0, y0, z1);
+  //right
+  add_polygon(edges, x1, y0, z0, x1, y0, z1, x1, y1, z1);
+  add_polygon(edges, x1, y1, z1, x1, y1, z0, x1, y0, z0);
+  //left
+  add_polygon(edges, x0, y0, z1, x0, y0, z0, x0, y1, z0);
+  add_polygon(edges, x0, y1, z0, x0, y1, z1, x0, y0, z1);
 }
 
 
