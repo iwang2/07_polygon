@@ -43,15 +43,26 @@ void add_polygon( struct matrix *polygons,
   ====================*/
 void draw_polygons( struct matrix *polygons, screen s, color c ) {
   int i;
-  for ( i = 0 ; i < polygons->lastcol ; i += 3 ) {
-    double x0, y0, z0, x1, y1, z1, x2, y2, z2;
-    x0 = polygons->m[0][i]; y0 = polygons->m[1][i]; z0 = polygons->m[2][i];
-    x1 = polygons->m[0][i+1]; y1 = polygons->m[1][i+1]; z1 = polygons->m[2][i+1];
-    x2 = polygons->m[0][i+2]; y2 = polygons->m[1][i+2]; z2 = polygons->m[2][i+2];
+  for ( i = 0 ; i < polygons->lastcol-2 ; i += 3 ) {
+    double x0, y0, /*z0,*/ x1, y1, /*z1,*/ x2, y2/*, z2*/;
+    x0 = polygons->m[0][i];
+    y0 = polygons->m[1][i];
+    //z0 = polygons->m[2][i];
+    x1 = polygons->m[0][i+1];
+    y1 = polygons->m[1][i+1];
+    //z1 = polygons->m[2][i+1];
+    x2 = polygons->m[0][i+2];
+    y2 = polygons->m[1][i+2];
+    //z2 = polygons->m[2][i+2];
 
+    /*
     add_edge(polygons, x0, y0, z0, x1, y1, z1);
     add_edge(polygons, x1, y1, z1, x2, y2, z2);
     add_edge(polygons, x0, y0, z0, x2, y2, z2);
+    */
+    draw_line(x0, y0, x1, y1, s, c);
+    draw_line(x1, y1, x2, y2, s, c);
+    draw_line(x0, y0, x2, y2, s, c);
   }
 }
 
@@ -122,15 +133,16 @@ void add_sphere( struct matrix * edges,
   struct matrix *points = generate_sphere(cx, cy, cz, r, step);
   int index, lat, longt;
   int latStop, longStop, latStart, longStart;
-  latStart = 0;
-  latStop = step;
-  longStart = 0;
-  longStop = step;
+  latStart = 1;
+  latStop = step - 1;
+  longStart = 1;
+  longStop = step - 1;
 
   step++;
   for ( lat = latStart; lat < latStop; lat++ ) {
     for ( longt = longStart; longt <= longStop; longt++ ) {
       index = lat * (step) + longt;
+      /*
       add_edge( edges,
 		points->m[0][index],
                 points->m[1][index],
@@ -138,6 +150,17 @@ void add_sphere( struct matrix * edges,
                 points->m[0][index] + 1,
                 points->m[1][index] + 1,
                 points->m[2][index] + 1);
+      */
+      add_polygon(edges,
+		  points->m[0][index],
+		  points->m[1][index],
+		  points->m[2][index],
+		  points->m[0][index + 1],
+		  points->m[1][index + 1],
+		  points->m[2][index + 1],
+		  points->m[0][index + step],
+		  points->m[1][index + step],
+		  points->m[2][index + step]);
     }
   }
   free_matrix(points);
@@ -173,10 +196,8 @@ struct matrix * generate_sphere(double cx, double cy, double cz,
       circ = (double)circle / step;
 
       x = r * cos(M_PI * circ) + cx;
-      y = r * sin(M_PI * circ) *
-        cos(2*M_PI * rot) + cy;
-      z = r * sin(M_PI * circ) *
-        sin(2*M_PI * rot) + cz;
+      y = r * sin(M_PI * circ) * cos(2*M_PI * rot) + cy;
+      z = r * sin(M_PI * circ) * sin(2*M_PI * rot) + cz;
 
       /* printf("rotation: %d\tcircle: %d\n", rotation, circle); */
       /* printf("rot: %lf\tcirc: %lf\n", rot, circ); */
