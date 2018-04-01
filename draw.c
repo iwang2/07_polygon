@@ -134,8 +134,8 @@ void add_sphere( struct matrix * edges,
   int index, lat, longt;
   int latStop, longStop, latStart, longStart;
   double x0, y0, z0, x1, y1, z1, x2, y2, z2;
-  latStart = 1;
-  latStop = step - 1;
+  latStart = 0;
+  latStop = step;
   longStart = 0;
   longStop = step;
   step++;
@@ -149,20 +149,16 @@ void add_sphere( struct matrix * edges,
       x1 = points->m[0][index + 1];
       y1 = points->m[1][index + 1];
       z1 = points->m[2][index + 1];
-      x2 = points->m[0][index + step];
-      y2 = points->m[1][index + step];
-      z2 = points->m[2][index + step];
+      index += step;
       
-      if ( longt == 0 ) {
-        x2 = points->m[0][index + step + 1];
-	y2 = points->m[1][index + step + 1];
-	z2 = points->m[2][index + step + 1];
-      }
-      if ( longt == step ) {
-        x2 = points->m[0][index + step - 1];
-	y2 = points->m[1][index + step - 1];
-	z2 = points->m[2][index + step - 1];
-      }
+      if ( lat == step-2 ) index = longt;
+      if ( longt == 0 )	index++;
+      if ( longt == step ) index--;
+      
+      x2 = points->m[0][index];
+      y2 = points->m[1][index];
+      z2 = points->m[2][index];
+      
       add_polygon(edges, x0, y0, z0, x1, y1, z1, x2, y2, z2);
     }
   }
