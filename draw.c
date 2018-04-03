@@ -149,11 +149,11 @@ void add_sphere( struct matrix * edges,
       x1 = points->m[0][index + 1];
       y1 = points->m[1][index + 1];
       z1 = points->m[2][index + 1];
-      index += step;
       
+      index += step;      
       if ( lat == step-2 ) index = longt;
       if ( longt == 0 )	index++;
-      if ( longt == step ) index--;
+      else if ( longt == step ) index--;
       
       x2 = points->m[0][index];
       y2 = points->m[1][index];
