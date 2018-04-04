@@ -96,7 +96,7 @@ void parse_file ( char * filename,
     char axis;
     int type;
     int step = 100;
-    int step_3d = 11;
+    int step_3d = 15;
 
     if ( strncmp(line, "box", strlen(line)) == 0 ) {
       fgets(line, sizeof(line), f);
