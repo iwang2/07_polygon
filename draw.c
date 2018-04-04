@@ -230,16 +230,32 @@ void add_torus( struct matrix * edges,
   longStart = 0;
   longStop = step;
 
+  double x0, y0, z0, x1, y1, z1, x2, y2, z2;
+
   for ( lat = latStart; lat < latStop; lat++ ) {
     for ( longt = longStart; longt < longStop; longt++ ) {
-
       index = lat * step + longt;
-      add_edge( edges, points->m[0][index],
-                points->m[1][index],
-                points->m[2][index],
-                points->m[0][index] + 1,
-                points->m[1][index] + 1,
-                points->m[2][index] + 1);
+      x0 = points->m[0][index];
+      y0 = points->m[1][index];
+      z0 = points->m[2][index];
+      
+      if ( longt == step-1) index = lat * step;
+      else index++;
+      x1 = points->m[0][index];
+      y1 = points->m[1][index];
+      z1 = points->m[2][index];
+      
+      if ( lat == step-1 ) index = longt;
+      else index += step;
+      x2 = points->m[0][index];
+      y2 = points->m[1][index];
+      z2 = points->m[2][index];
+
+      add_polygon(edges, x0, y0, z0, x1, y1, z1, x2, y2, z2);
+      /*add_polygon(edges, x2, y2, z2, x1, y1, z1, 
+		  points->m[0][index+1],
+		  points->m[1][index+1],
+		  points->m[2][index+1]);*/
     }
   }
   free_matrix(points);
