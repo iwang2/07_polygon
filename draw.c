@@ -52,9 +52,15 @@ void draw_polygons( struct matrix *polygons, screen s, color c ) {
     x2 = polygons->m[0][i+2];
     y2 = polygons->m[1][i+2];
 
-    draw_line(x0, y0, x1, y1, s, c);
-    draw_line(x1, y1, x2, y2, s, c);
-    draw_line(x0, y0, x2, y2, s, c);
+    double ax, ay, bx, by;
+    ax = x1 - x0; ay = y1 - y0;
+    bx = x2 - x0; by = y2 - y0;
+    
+    if ( ax * by - ay * bx > 0 ) {
+      draw_line(x0, y0, x1, y1, s, c);
+      draw_line(x1, y1, x2, y2, s, c);
+      draw_line(x0, y0, x2, y2, s, c);
+    }
   }
 }
 
