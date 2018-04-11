@@ -246,19 +246,17 @@ void add_torus( struct matrix * edges,
       y0 = points->m[1][index];
       z0 = points->m[2][index];
       
-      if ( longt == step-1) index = lat * step;
-      else index++;
+      index = (lat * step + longt + 1) % points->lastcol;
       x1 = points->m[0][index];
       y1 = points->m[1][index];
       z1 = points->m[2][index];
       
-      if ( lat == step-1 ) index = longt; 
-      else index += step;
+      index = (lat * step + longt + step) % points->lastcol;
       x2 = points->m[0][index];
       y2 = points->m[1][index];
       z2 = points->m[2][index];
 
-      index = (index + 1) % points->lastcol;
+      index = (lat * step + longt + step + 1) % points->lastcol;
 
       add_polygon(edges, x0, y0, z0, x1, y1, z1, x2, y2, z2);
       add_polygon(edges, x2, y2, z2, x1, y1, z1, 

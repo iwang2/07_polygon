@@ -1,0 +1,50 @@
+sphere
+0 0 0 70
+ident
+scale
+3 1 1
+move
+250 250 0
+apply
+display
+ident
+move
+-250 -250 0
+rotate
+z 10
+move
+250 250 0
+apply
+display
+apply
+display
+apply
+display
+apply
+display
+apply
+display
+apply
+display
+apply
+display
+apply
+display
+apply
+display
+apply
+display
+apply
+display
+apply
+display
+apply
+display
+apply
+display
+apply
+display
+apply
+display
+apply
+display
